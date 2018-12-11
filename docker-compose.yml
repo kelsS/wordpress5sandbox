@@ -39,7 +39,7 @@ services:
     ports:
       - "8080:8080"
 
-#  You can now browse to http://localhost:80/ (or hosts dev URL - www.wordpressfivezero.test)and see your WordPress installation
+#  You can now browse to http://localhost:80/ (or hosts dev URL) http://www.wordpressfivezero.test and see your WordPress installation
 # PHPMYADMIN URL: http://localhost:8080
 # See Theme CSS Compiling http://localhost:3001/
 #  If you want to connect to mysql, just be sure to use the address 127.0.0.1 and the port 8080
