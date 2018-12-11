@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  db_wp:
+    container_name:  dev_database_wp_sandbox
+    image: mariadb  # Pull mysql image from Docker Hub
+    ports:  # Set up ports exposed for other containers to connect to
+      - "3306:3306"
+    volumes:
+      - ./database/mysql:/docker-entrypoint-initdb.d
+    environment:  # Set up mysql database name and password
+      # MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_name
+      # MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+  wordpress_wp:
+    image: wordpress:4.9.8-php7.2-apache
+    container_name: dev_wp_cms_sandbox
+    depends_on:
+      - db_wp
+    ports:
+      - "80:80"
+    volumes: # Mount relative path source folder on host to absolute path destination folder on docker container      
+      - ./:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+  
+    links: 
+      - db_wp
+    restart: always
+  
+  adminer_wp:
+    image: adminer:latest
+    container_name: dev_adminer_wp_sandbox
+    depends_on: 
+      - db_wp
+    restart: always
+    ports:
+      - "8080:8080"
+
+#  You can now browse to http://localhost:80/ (or hosts dev URL - www.wordpressfivezero.test)and see your WordPress installation
+# PHPMYADMIN URL: http://localhost:8080
+# See Theme CSS Compiling http://localhost:3001/
+#  If you want to connect to mysql, just be sure to use the address 127.0.0.1 and the port 8080
+# https://medium.com/@tatemz/local-wordpress-development-with-docker-3-easy-steps-a7c375366b9
+
+# Command to backup database from database container
+# docker exec container_name mysqldump -u root --password=VisionPoint!mysql database_name > database_name_backup.sql
