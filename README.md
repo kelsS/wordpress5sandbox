@@ -1,2 +1,2 @@
-# wordpress-5.0-sandbox
+# wordpress5sandbox
 Wordpress 5.0 Sandbox
